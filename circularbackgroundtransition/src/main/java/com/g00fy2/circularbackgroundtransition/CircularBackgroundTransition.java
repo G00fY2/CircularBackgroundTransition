@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
@@ -43,7 +44,6 @@ import android.widget.FrameLayout;
     super(context, attrs, defStyleAttr);
 
     layoutCornerRadius = pxFromDp(LAYOUT_CORNER_RADIUS * 2, context);
-    circlePaint.setStyle(Paint.Style.FILL);
     maskPaint.setStyle(Paint.Style.STROKE);
     maskPaint.setColor(Color.WHITE);
     maskPaint.setStrokeWidth(layoutCornerRadius);
@@ -54,7 +54,7 @@ import android.widget.FrameLayout;
     this.height = height;
     centerX = width / 2;
     centerY = height / 2;
-    float offset = 0;
+    float offset;
     if (!LAYOUT_MASK_MARGIN) {
       offset = layoutCornerRadius / 2;
     }
@@ -66,19 +66,20 @@ import android.widget.FrameLayout;
     canvas.drawRoundRect(rect, layoutCornerRadius, layoutCornerRadius, maskPaint);
   }
 
-  public void start(int nextBackgroundColor) {
+  public void start(@ColorInt int nextBackgroundColor) {
     if (animator != null && animator.isRunning()) {
       animator.cancel();
     }
     circlePaint.setColor(nextBackgroundColor);
     float fillingRadius = (float) Math.sqrt(width * width + height * height) / 2;
 
-    animator = ObjectAnimator.ofFloat(this, "circleTransitionRadius", 0, fillingRadius);
+    animator = ObjectAnimator.ofFloat(this, "circleTransitionRadius", 0f, fillingRadius);
     animator.setDuration(ANIMATION_DURATION);
     animator.setInterpolator(new DecelerateInterpolator());
     animator.addListener(new AnimatorListenerAdapter() {
       @Override public void onAnimationEnd(Animator animation) {
-        setBackgroundColor(circlePaint.getColor());
+        circleTransitionRadius = 0f;
+        setBackgroundColor(nextBackgroundColor);
       }
     });
     animator.start();
