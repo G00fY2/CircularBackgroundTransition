@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     cbt = findViewById(R.id.circular_background_transition_view);
-    cbt.setOnClickListener(v -> cbt.start(getRandomColor()));
+    cbt.setOnClickListener(v -> cbt.startTransition(getRandomColor()));
   }
 
   int getRandomColor() {
