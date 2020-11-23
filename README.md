@@ -1,7 +1,7 @@
 # Circular Background Transition
 Custom FrameLayout with circular background color transition.
 
-[<img src="https://raw.githubusercontent.com/G00fY2/CircularBackgroundTransition/media/device-2020-11-24-000228.webm" width=160>](https://raw.githubusercontent.com/G00fY2/CircularBackgroundTransition/media/device-2020-11-24-000228.webm)
+[<img src="https://raw.githubusercontent.com/G00fY2/CircularBackgroundTransition/media/device-2020-11-24-000228.gif" width=160>](https://raw.githubusercontent.com/G00fY2/CircularBackgroundTransition/media/device-2020-11-24-000228.gif)
 
 ## License
      The MIT License (MIT)
