@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.g00fy2.circularbackgroundtransition.CircularBackgroundTransition
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/circular_background_transition_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    >
-
-  <com.g00fy2.circularbackgroundtransition.CircularBackgroundTransition
-      android:id="@+id/circular_background_transition_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_margin="16dp"
-      android:background="@color/backgroundColor"
-      >
-
-  </com.g00fy2.circularbackgroundtransition.CircularBackgroundTransition>
-
-
-</LinearLayout>
+    android:layout_margin="16dp"
+    />

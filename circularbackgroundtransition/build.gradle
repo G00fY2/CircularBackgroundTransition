@@ -2,12 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 30
   defaultConfig {
     minSdkVersion 19
   }
-}
-
-dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
