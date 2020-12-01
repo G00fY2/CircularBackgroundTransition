@@ -5,16 +5,14 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.animation.DecelerateInterpolator
+import android.view.View
+import android.view.ViewOutlineProvider
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import kotlin.math.sqrt
 
@@ -28,36 +26,29 @@ class CircularBackgroundTransition @JvmOverloads constructor(
   private var animator: ValueAnimator? = null
   private val layoutCornerRadius =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, LAYOUT_CORNER_RADIUS, resources.displayMetrics)
-  private val transparentPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    color = Color.TRANSPARENT
-    xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-  }
   private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-  private var maskBitmap: Bitmap? = null
-  private var maskCanvas: Canvas? = null
-  private var maskRect = RectF()
   private var circleTransitionRadius = 0f
   private var centerX = 0f
   private var centerY = 0f
+
+  init {
+    outlineProvider = object : ViewOutlineProvider() {
+      override fun getOutline(view: View, outline: Outline) {
+        outline.setRoundRect(0, 0, view.width, view.height, layoutCornerRadius)
+      }
+    }
+    clipToOutline = true
+  }
 
   override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
     super.onLayout(changed, left, top, right, bottom)
     centerX = width / 2f
     centerY = height / 2f
-    if (maskBitmap == null) {
-      maskBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-        maskCanvas = Canvas(this)
-      }
-    }
-    maskRect.set(0f, 0f, width.toFloat(), height.toFloat())
   }
 
   override fun onDraw(canvas: Canvas) {
-    canvas.drawCircle(centerX, centerY, circleTransitionRadius, circlePaint)
-    maskCanvas!!.drawColor(Color.WHITE)
-    maskCanvas!!.drawRoundRect(maskRect, layoutCornerRadius, layoutCornerRadius, transparentPaint)
-    canvas.drawBitmap(maskBitmap!!, 0f, 0f, null)
     super.onDraw(canvas)
+    canvas.drawCircle(centerX, centerY, circleTransitionRadius, circlePaint)
   }
 
   fun startTransition(nextBackgroundColor: Int) {
@@ -69,7 +60,7 @@ class CircularBackgroundTransition @JvmOverloads constructor(
 
     animator = ObjectAnimator.ofFloat(this, "circleTransitionRadius", 0f, fillingRadius).apply {
       duration = ANIMATION_DURATION.toLong()
-      interpolator = DecelerateInterpolator()
+      interpolator = AccelerateDecelerateInterpolator()
       addListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           circleTransitionRadius = 0f
