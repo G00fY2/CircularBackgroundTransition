@@ -5,4 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    />
+    >
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:alpha="0.6"
+      android:background="@color/colorAccent"
+      android:gravity="center"
+      android:padding="8dp"
+      android:text="Hello World"
+      />
+</com.g00fy2.circularbackgroundtransition.CircularBackgroundTransition>
