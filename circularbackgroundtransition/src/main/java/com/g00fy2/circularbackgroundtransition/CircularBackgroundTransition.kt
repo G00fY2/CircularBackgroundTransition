@@ -48,10 +48,9 @@ class CircularBackgroundTransition @JvmOverloads constructor(
     super.onLayout(changed, left, top, right, bottom)
     centerX = width / 2f
     centerY = height / 2f
-    if (maskBitmap == null) {
-      maskBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-        maskCanvas = Canvas(this)
-      }
+    if (maskBitmap == null || changed) {
+      maskBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+      maskCanvas = Canvas(maskBitmap!!)
     }
     maskRect.set(
       layoutMaskWidth,
